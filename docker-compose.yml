@@ -1,0 +1,116 @@
+version: '3.8'
+services:
+  node:
+    image: kirillfedoseev/lighthouse:v1.4.0
+    command: |
+      lighthouse beacon_node
+      --testnet-dir /root/sbc/config
+      --discovery-port 12000
+      --enr-udp-port 12000
+      --port 13000
+      --eth1-endpoints $XDAI_RPC_URL
+      --disable-enr-auto-update
+      --datadir /home/.eth2/beaconchaindata
+      --slasher-dir /home/.eth2/slasherdata
+      --boot-nodes $BOOTNODE
+      --enr-address $PUBLIC_IP
+      --http-address 0.0.0.0
+      --http
+      --debug-level $LOG_LEVEL
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
+      - '5052:5052'
+    volumes:
+      - ./config:/root/sbc/config
+      - ./node_db:/home/.eth2/beaconchaindata
+    logging:
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
+  node-private-slasher:
+    image: kirillfedoseev/lighthouse:v1.4.0
+    command: |
+      lighthouse beacon_node
+      --testnet-dir /root/sbc/config
+      --discovery-port 12000
+      --enr-udp-port 12000
+      --port 13000
+      --eth1-endpoints $XDAI_RPC_URL
+      --disable-enr-auto-update
+      --datadir /home/.eth2/beaconchaindata
+      --slasher-dir /home/.eth2/slasherdata
+      --boot-nodes $BOOTNODE
+      --enr-address $PUBLIC_IP
+      --http-address 0.0.0.0
+      --http
+      --debug-level $LOG_LEVEL
+      --slasher
+      --slasher-max-db-size 32
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
+      - '5052:5052'
+    volumes:
+      - ./config:/root/sbc/config
+      - ./node_db:/home/.eth2/beaconchaindata
+      - ./slasher_db:/home/.eth2/slasherdata
+    logging:
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
+  node-public-slasher:
+    image: kirillfedoseev/lighthouse:v1.4.0
+    command: |
+      lighthouse beacon_node
+      --testnet-dir /root/sbc/config
+      --discovery-port 12000
+      --enr-udp-port 12000
+      --port 13000
+      --eth1-endpoints $XDAI_RPC_URL
+      --disable-enr-auto-update
+      --datadir /home/.eth2/beaconchaindata
+      --slasher-dir /home/.eth2/slasherdata
+      --boot-nodes $BOOTNODE
+      --enr-address $PUBLIC_IP
+      --http-address 0.0.0.0
+      --http
+      --debug-level $LOG_LEVEL
+      --slasher
+      --slasher-max-db-size 32
+      --slasher-broadcast
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
+      - '5052:5052'
+    volumes:
+      - ./config:/root/sbc/config
+      - ./node_db:/home/.eth2/beaconchaindata
+      - ./slasher_db:/home/.eth2/slasherdata
+    logging:
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
+  validator-import:
+    image: kirillfedoseev/lighthouse:v1.4.0
+    command: |
+      lighthouse account_manager validator import
+      --testnet-dir /root/sbc/config
+      --password-file /root/sbc/keys/keystore_password.txt
+      --reuse-password
+      --directory /root/sbc/keys/validator_keys
+      --datadir /root/sbc
+    volumes:
+      - ./config:/root/sbc/config
+      - ./keys:/root/sbc/keys
+      - ./validators:/root/sbc/validators
+  validator:
+    image: kirillfedoseev/lighthouse:v1.4.0
+    command: |
+      lighthouse validator_client
+      --testnet-dir /sbc_test/config
+      --validators-dir /sbc_test/validators
+      --beacon-nodes http://node:5052
+    volumes:
+      - ./config:/root/sbc/config
+      - ./validators:/root/sbc/validators
+    logging:
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
