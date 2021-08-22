@@ -11,8 +11,6 @@ services:
       --eth1-endpoints $XDAI_RPC_URL
       --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
-      --slasher-dir /home/.eth2/slasherdata
-      --boot-nodes $BOOTNODE
       --enr-address $PUBLIC_IP
       --http-address 0.0.0.0
       --http
@@ -20,7 +18,7 @@ services:
     ports:
       - '12000:12000/udp'
       - '13000:13000'
-      - '5052:5052'
+      - '127.0.0.1:5052:5052'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -39,7 +37,6 @@ services:
       --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --boot-nodes $BOOTNODE
       --enr-address $PUBLIC_IP
       --http-address 0.0.0.0
       --http
@@ -49,7 +46,7 @@ services:
     ports:
       - '12000:12000/udp'
       - '13000:13000'
-      - '5052:5052'
+      - '127.0.0.1:5052:5052'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -69,7 +66,6 @@ services:
       --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --boot-nodes $BOOTNODE
       --enr-address $PUBLIC_IP
       --http-address 0.0.0.0
       --http
@@ -80,7 +76,7 @@ services:
     ports:
       - '12000:12000/udp'
       - '13000:13000'
-      - '5052:5052'
+      - '127.0.0.1:5052:5052'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -105,8 +101,8 @@ services:
     image: kirillfedoseev/lighthouse:v1.4.0
     command: |
       lighthouse validator_client
-      --testnet-dir /sbc_test/config
-      --validators-dir /sbc_test/validators
+      --testnet-dir /root/sbc/config
+      --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
     volumes:
       - ./config:/root/sbc/config
