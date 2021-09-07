@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    image: kirillfedoseev/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -26,7 +26,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-private-slasher:
-    image: kirillfedoseev/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -55,7 +55,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-public-slasher:
-    image: kirillfedoseev/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -85,7 +85,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   validator-import:
-    image: kirillfedoseev/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
     command: |
       lighthouse account_manager validator import
       --testnet-dir /root/sbc/config
@@ -98,7 +98,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: kirillfedoseev/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
     command: |
       lighthouse validator_client
       --testnet-dir /root/sbc/config
