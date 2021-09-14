@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -9,7 +9,6 @@ services:
       --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
-      --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
       --enr-address $PUBLIC_IP
       --http-address 0.0.0.0
@@ -26,7 +25,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-private-slasher:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -34,7 +33,6 @@ services:
       --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
-      --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
       --enr-address $PUBLIC_IP
@@ -55,7 +53,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-public-slasher:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -63,7 +61,6 @@ services:
       --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
-      --disable-enr-auto-update
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
       --enr-address $PUBLIC_IP
@@ -85,7 +82,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   validator-import:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
     command: |
       lighthouse account_manager validator import
       --testnet-dir /root/sbc/config
@@ -98,7 +95,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.1-sbc
+    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
     command: |
       lighthouse validator_client
       --testnet-dir /root/sbc/config
