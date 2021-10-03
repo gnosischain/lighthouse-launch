@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
+    image: ghcr.io/openethereum/sbc-lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -25,7 +25,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-private-slasher:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
+    image: ghcr.io/openethereum/sbc-lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -53,7 +53,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-public-slasher:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
+    image: ghcr.io/openethereum/sbc-lighthouse:v1.5.2-sbc
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -82,7 +82,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   validator-import:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
+    image: ghcr.io/openethereum/sbc-lighthouse:v1.5.2-sbc
     command: |
       lighthouse account_manager validator import
       --testnet-dir /root/sbc/config
@@ -95,7 +95,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: ghcr.io/canarynetwork/lighthouse:v1.5.2-sbc
+    image: ghcr.io/openethereum/sbc-lighthouse:v1.5.2-sbc
     command: |
       lighthouse validator_client
       --testnet-dir /root/sbc/config
