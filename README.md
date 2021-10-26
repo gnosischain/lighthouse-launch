@@ -20,7 +20,7 @@ Patched source code is available at https://github.com/openethereum/sbc-lighthou
 2) Clone the repository with all necessary configs:
 ```bash
 cd /root/sbc
-git clone https://github.com/openethereum/sbc-lighthouse .
+git clone https://github.com/openethereum/sbc-lighthouse-launch .
 ```
 3) Copy all validators keystore files to the `./keys/validator_keys` directory. Ensure that copied keystores are only used on a single VM instance.
 4) Write keystore password to the `./keys/keystore_password.txt` file
