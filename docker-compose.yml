@@ -6,18 +6,13 @@ services:
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
       --discovery-port 12000
-      --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
-      --enr-address $PUBLIC_IP
       --http-address 0.0.0.0
       --http
       --debug-level $LOG_LEVEL
-    ports:
-      - '12000:12000/udp'
-      - '13000:13000'
-      - '127.0.0.1:5052:5052'
+    network_mode: host
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -30,21 +25,16 @@ services:
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
       --discovery-port 12000
-      --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --enr-address $PUBLIC_IP
-      --http-address 0.0.0.0
+      --http-address 127.0.0.1
       --http
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
-    ports:
-      - '12000:12000/udp'
-      - '13000:13000'
-      - '127.0.0.1:5052:5052'
+    network_mode: host
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -58,22 +48,17 @@ services:
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
       --discovery-port 12000
-      --enr-udp-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --enr-address $PUBLIC_IP
-      --http-address 0.0.0.0
+      --http-address 127.0.0.1
       --http
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
       --slasher-broadcast
-    ports:
-      - '12000:12000/udp'
-      - '13000:13000'
-      - '127.0.0.1:5052:5052'
+    network_mode: host
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -100,7 +85,8 @@ services:
       lighthouse validator_client
       --testnet-dir /root/sbc/config
       --validators-dir /root/sbc/validators
-      --beacon-nodes http://node:5052
+      --beacon-nodes http://localhost:5052
+    network_mode: host
     volumes:
       - ./config:/root/sbc/config
       - ./validators:/root/sbc/validators
