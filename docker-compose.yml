@@ -11,6 +11,8 @@ services:
       --datadir /home/.eth2/beaconchaindata
       --http-address 0.0.0.0
       --http
+      --enr-address $PUBLIC_IP
+      --enr-udp-port 12000
       --debug-level $LOG_LEVEL
     network_mode: host
     volumes:
