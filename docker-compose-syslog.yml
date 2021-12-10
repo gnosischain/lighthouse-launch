@@ -19,10 +19,8 @@ services:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
     logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "1"
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
   node-private-slasher:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
     command: |
@@ -44,10 +42,8 @@ services:
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "1"
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
   node-public-slasher:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
     command: |
@@ -70,10 +66,8 @@ services:
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "1"
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
   validator-import:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
     command: |
@@ -99,7 +93,5 @@ services:
       - ./config:/root/sbc/config
       - ./validators:/root/sbc/validators
     logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "1"
+      driver: syslog
+      options: { tag: '{{.Name}}/{{.ID}}' }
