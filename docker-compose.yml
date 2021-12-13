@@ -9,7 +9,7 @@ services:
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
-      --http-address 0.0.0.0
+      --http-address 127.0.0.1
       --http
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
