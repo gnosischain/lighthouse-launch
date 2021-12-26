@@ -2,6 +2,7 @@ version: '3.8'
 services:
   node:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    hostname: node
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -9,12 +10,18 @@ services:
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
-      --http-address 127.0.0.1
+      --http-address 0.0.0.0
       --http
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
+      --metrics
+      --metrics-address 0.0.0.0
+      --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
-    network_mode: host
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -25,6 +32,7 @@ services:
         max-file: "1"
   node-private-slasher:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    hostname: node
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -33,12 +41,18 @@ services:
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --http-address 127.0.0.1
+      --http-address 0.0.0.0
       --http
+      --metrics
+      --metrics-address 0.0.0.0
+      --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
-    network_mode: host
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -50,6 +64,7 @@ services:
         max-file: "1"
   node-public-slasher:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    hostname: node
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -58,13 +73,19 @@ services:
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
-      --http-address 127.0.0.1
+      --http-address 0.0.0.0
       --http
+      --metrics
+      --metrics-address 0.0.0.0
+      --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
       --slasher-broadcast
-    network_mode: host
+    ports:
+      - '12000:12000/udp'
+      - '13000:13000'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
@@ -89,15 +110,45 @@ services:
       - ./validators:/root/sbc/validators
   validator:
     image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    hostname: validator
+    depends_on:
+      - node
     command: |
       lighthouse validator_client
       --testnet-dir /root/sbc/config
       --validators-dir /root/sbc/validators
-      --beacon-nodes http://localhost:5052
-    network_mode: host
+      --beacon-nodes http://node:5052
+      --metrics
+      --metrics-address 0.0.0.0
+      --metrics-allow-origin *
+      --metrics-port 5064
     volumes:
       - ./config:/root/sbc/config
       - ./validators:/root/sbc/validators
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "1"
+  prometheus:
+    image: prom/prometheus:latest
+    depends_on:
+      - node
+      - validator
+    command: |
+      --web.listen-address=0.0.0.0:9090
+      --config.file=/etc/prometheus/prometheus.yml
+      --storage.tsdb.path=/prometheus
+      --web.console.libraries=/usr/share/prometheus/console_libraries
+      --web.console.templates=/usr/share/prometheus/consoles
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus-data:/prometheus
+      - type: bind
+        source: ./prometheus/scrape-targets
+        target: /prometheus/targets
     logging:
       driver: "json-file"
       options:
