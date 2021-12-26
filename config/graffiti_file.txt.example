@@ -1,0 +1,3 @@
+default: default_graffiti
+public_key1: graffiti1
+public_key2: graffiti2
