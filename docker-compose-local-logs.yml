@@ -145,7 +145,7 @@ services:
       - '9090:9090'
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus-data:/prometheus
+      - prometheus-data:/prometheus
       - type: bind
         source: ./prometheus/scrape-targets
         target: /prometheus/targets
@@ -154,3 +154,5 @@ services:
       options:
         max-size: "100m"
         max-file: "1"
+volumes:
+  prometheus-data:
