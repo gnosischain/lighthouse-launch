@@ -5,14 +5,14 @@ services:
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
-      --discovery-port 12000
-      --port 13000
+      --discovery-port $DISCOVERY_PORT
+      --port $PORT
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --http-address 127.0.0.1
       --http
       --enr-address $PUBLIC_IP
-      --enr-udp-port 12000
+      --enr-udp-port $ENR_UDP_PORT
       --debug-level $LOG_LEVEL
     network_mode: host
     volumes:
@@ -26,8 +26,8 @@ services:
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
-      --discovery-port 12000
-      --port 13000
+      --discovery-port $DISCOVERY_PORT
+      --port $PORT
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
@@ -49,8 +49,8 @@ services:
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
-      --discovery-port 12000
-      --port 13000
+      --discovery-port $DISCOVERY_PORT
+      --port $PORT
       --eth1-endpoints $XDAI_RPC_URL
       --datadir /home/.eth2/beaconchaindata
       --slasher-dir /home/.eth2/slasherdata
