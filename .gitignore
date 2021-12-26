@@ -1,3 +1,4 @@
 .idea/
 keys/validator_keys/*
 keys/*
+prometheus-data/*
