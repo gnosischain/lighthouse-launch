@@ -88,6 +88,7 @@ services:
       --testnet-dir /root/sbc/config
       --validators-dir /root/sbc/validators
       --beacon-nodes http://localhost:5052
+      --graffiti-file=/root/sbc/config/graffiti.yml
     network_mode: host
     volumes:
       - ./config:/root/sbc/config
