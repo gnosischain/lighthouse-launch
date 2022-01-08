@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: ghcr.io/gnosischain/gbc-lighthouse:latest-unstable
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -24,7 +24,7 @@ services:
         max-size: "100m"
         max-file: "1"
   node-private-slasher:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: ghcr.io/gnosischain/gbc-lighthouse:latest-unstable
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -49,7 +49,7 @@ services:
         max-size: "100m"
         max-file: "1"
   node-public-slasher:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: ghcr.io/gnosischain/gbc-lighthouse:latest-unstable
     command: |
       lighthouse beacon_node
       --testnet-dir /root/sbc/config
@@ -75,7 +75,7 @@ services:
         max-size: "100m"
         max-file: "1"
   validator-import:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: ghcr.io/gnosischain/gbc-lighthouse:latest-unstable
     command: |
       lighthouse account_manager validator import
       --testnet-dir /root/sbc/config
@@ -88,7 +88,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: ghcr.io/gnosischain/gbc-lighthouse:latest-unstable
     command: |
       lighthouse validator_client
       --testnet-dir /root/sbc/config
