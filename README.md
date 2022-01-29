@@ -69,3 +69,11 @@ docker-compose logs -f node-public-slasher
 docker-compose up -d validator
 docker-compose logs -f validator
 ```
+
+## Collecting metrics
+1) Run the following command to start the prometheus server, it will allow to use grafana's dashboards (configured separately):
+```bash
+docker-compose up -d prometheus
+```
+
+If the node is run by `node-private-slasher` or `node-public-slasher`, replace `node` in `depends_on` section of the prometheus service in the docker compose file to specify proper set of services to run.
