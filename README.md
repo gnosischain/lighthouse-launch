@@ -24,7 +24,7 @@ git clone https://github.com/gnosischain/lighthouse-launch .
 ```
 3) Copy all validators keystore files to the `./keys/validator_keys` directory. Ensure that copied keystores are only used on a single VM instance.
 4) Write keystore password to the `./keys/keystore_password.txt` file
-5) Create `.env` file from the example at `.env.example`. Put the valid external IP address of your VM, an xDAI RPC url in the config and list of trusted peers. Other values can be left without changes.
+5) Create `.env` file from the example at `.env.example`. Put the valid external IP address of your VM and an xDAI RPC url in the config. Other values can be left without changes.
 6) Modify `./config/graffiti.yml`, if needed. (See https://lighthouse-book.sigmaprime.io/graffiti.html for file format description)
 
 If it is required to send the node and validator logs to a remote syslog server the following actions can be done (it is assumed that the node and validator will be run by using the `docker-compose-syslog.yml` file with the `docker-compose` command in the instructions below).
