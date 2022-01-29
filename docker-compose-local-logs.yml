@@ -17,6 +17,7 @@ services:
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
     ports:
       - '12000:12000/udp'
@@ -45,6 +46,7 @@ services:
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
@@ -76,6 +78,7 @@ services:
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
+      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
