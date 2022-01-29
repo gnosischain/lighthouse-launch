@@ -112,7 +112,7 @@ services:
       --testnet-dir /root/sbc/config
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
-      --graffiti-file=/root/sbc/config/graffiti.yml
+      --graffiti-file /root/sbc/config/graffiti.yml
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
