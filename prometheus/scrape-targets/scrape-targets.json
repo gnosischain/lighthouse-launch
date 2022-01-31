@@ -1,0 +1,11 @@
+[
+  {
+    "labels": {
+      "job": "nodes"
+    },
+    "targets": [
+      "node:5054",
+      "validator:5064"
+    ]
+  }
+]
