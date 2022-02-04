@@ -11,6 +11,9 @@ services:
       --datadir /home/.eth2/beaconchaindata
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
+      --http
+      --http-address 0.0.0.0
+      --http-allow-origin *
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
@@ -19,6 +22,7 @@ services:
       - '12000:12000/udp'
       - '13000:13000'
       - '5054:5054'
+      - '5052:5052'
     volumes:
       - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
