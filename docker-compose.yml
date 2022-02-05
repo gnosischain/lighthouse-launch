@@ -8,10 +8,12 @@ services:
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
+      --eth1-blocks-per-log-query 256
       --datadir /home/.eth2/beaconchaindata
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
       --trusted-peers $TRUSTED_PEERS
+      --checkpoint-sync-url $CHECKPOINT_URL
       --http
       --http-address 0.0.0.0
       --http-allow-origin *
