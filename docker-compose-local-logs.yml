@@ -1,11 +1,12 @@
 version: '3.8'
 services:
   node:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: sigp/lighthouse:v2.1.2-modern
     hostname: node
+    restart: always
     command: |
       lighthouse beacon_node
-      --testnet-dir /root/sbc/config
+      --network gnosis
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -14,16 +15,16 @@ services:
       --http
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
+      --target-peers $TARGET_PEERS
+      --trusted-peers $TRUSTED_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
-      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
     ports:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
-      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
     logging:
       driver: "json-file"
@@ -31,11 +32,12 @@ services:
         max-size: "100m"
         max-file: "1"
   node-private-slasher:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: sigp/lighthouse:v2.1.2-modern
     hostname: node
+    restart: always
     command: |
       lighthouse beacon_node
-      --testnet-dir /root/sbc/config
+      --network gnosis
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -43,10 +45,11 @@ services:
       --slasher-dir /home/.eth2/slasherdata
       --http-address 0.0.0.0
       --http
+      --target-peers $TARGET_PEERS
+      --trusted-peers $TRUSTED_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
-      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
@@ -54,7 +57,6 @@ services:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
-      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
@@ -63,11 +65,12 @@ services:
         max-size: "100m"
         max-file: "1"
   node-public-slasher:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: sigp/lighthouse:v2.1.2-modern
     hostname: node
+    restart: always
     command: |
       lighthouse beacon_node
-      --testnet-dir /root/sbc/config
+      --network gnosis
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -75,10 +78,11 @@ services:
       --slasher-dir /home/.eth2/slasherdata
       --http-address 0.0.0.0
       --http
+      --target-peers $TARGET_PEERS
+      --trusted-peers $TRUSTED_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
-      --trusted-peers $TRUSTED_PEERS
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
@@ -87,7 +91,6 @@ services:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
-      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
@@ -96,26 +99,26 @@ services:
         max-size: "100m"
         max-file: "1"
   validator-import:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: sigp/lighthouse:v2.1.2-modern
     command: |
       lighthouse account_manager validator import
-      --testnet-dir /root/sbc/config
+      --network gnosis
       --password-file /root/sbc/keys/keystore_password.txt
       --reuse-password
       --directory /root/sbc/keys/validator_keys
       --datadir /root/sbc
     volumes:
-      - ./config:/root/sbc/config
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: ghcr.io/gnosischain/gbc-lighthouse:v2.0.1-gbc
+    image: sigp/lighthouse:v2.1.2-modern
     hostname: validator
+    restart: always
     depends_on:
       - node
     command: |
       lighthouse validator_client
-      --testnet-dir /root/sbc/config
+      --network gnosis
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
       --graffiti-file /root/sbc/config/graffiti.yml
@@ -133,6 +136,7 @@ services:
         max-file: "1"
   prometheus:
     image: prom/prometheus:latest
+    restart: always
     depends_on:
       - node
       - validator
