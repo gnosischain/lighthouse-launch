@@ -15,6 +15,7 @@ services:
       --http
       --enr-address $PUBLIC_IP
       --enr-udp-port 12000
+      --target-peers $TARGET_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
@@ -43,6 +44,7 @@ services:
       --slasher-dir /home/.eth2/slasherdata
       --http-address 0.0.0.0
       --http
+      --target-peers $TARGET_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
@@ -74,6 +76,7 @@ services:
       --slasher-dir /home/.eth2/slasherdata
       --http-address 0.0.0.0
       --http
+      --target-peers $TARGET_PEERS
       --metrics
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
