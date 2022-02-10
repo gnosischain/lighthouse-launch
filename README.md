@@ -4,11 +4,6 @@ This document describes how to run Lighthouse beacon node + Lighthouse validator
 
 See a similar repo with Prysm node setup - https://github.com/gnosischain/prysm-launch
 
-## Important Note
-We were not able to run the latest version of Lighthouse with our config.
-It was necessary to patch mainnet config in the beacon client and rebuild it from source.
-Patched source code is available at https://github.com/gnosischain/gbc-lighthouse.
-
 ## Assumptions
 * This document assumes that you already have an xDai node available for your use (or public JSON RPC endpoint)
 * You have already generated your validator accounts using the fork of the official deposit-cli - https://github.com/gnosischain/deposit-cli. You will need validator keystores and passwords for them to run the validator client.
