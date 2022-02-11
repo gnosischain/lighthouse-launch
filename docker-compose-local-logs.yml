@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.3-modern
     hostname: node
     restart: always
     command: |
@@ -31,7 +31,7 @@ services:
         max-size: "100m"
         max-file: "1"
   node-private-slasher:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.3-modern
     hostname: node
     restart: always
     command: |
@@ -63,7 +63,7 @@ services:
         max-size: "100m"
         max-file: "1"
   node-public-slasher:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.3-modern
     hostname: node
     restart: always
     command: |
@@ -96,7 +96,7 @@ services:
         max-size: "100m"
         max-file: "1"
   validator-import:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.3-modern
     command: |
       lighthouse account_manager validator import
       --network gnosis
@@ -108,7 +108,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.3-modern
     hostname: validator
     restart: always
     depends_on:
