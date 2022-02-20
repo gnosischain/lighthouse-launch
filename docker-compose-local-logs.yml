@@ -7,6 +7,7 @@ services:
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -37,6 +38,7 @@ services:
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -69,6 +71,7 @@ services:
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -116,6 +119,7 @@ services:
     command: |
       lighthouse validator_client
       --network gnosis
+      --enable-doppelganger-protection
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
       --graffiti-file /root/sbc/config/graffiti.yml
