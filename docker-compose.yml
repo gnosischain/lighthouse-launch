@@ -1,7 +1,8 @@
 version: '3.8'
 services:
   node:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.1.5-modern
+    restart: always
     command: |
       lighthouse beacon_node
       --network gnosis
