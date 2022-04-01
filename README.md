@@ -72,3 +72,12 @@ docker-compose up -d prometheus
 ```
 
 If the node is run by `node-private-slasher` or `node-public-slasher`, replace `node` in `depends_on` section of the prometheus service in the docker compose file to specify proper set of services to run.
+
+## Update repository to a newer version
+Update repository configs to a newer version should be as easy as pulling new changes from the repo and restarting the node.
+For example, the following sequence of commands should work in most of the cases. 
+```bash
+git pull
+docker-compose up down
+docker-compose up -d node validator prometheus
+```

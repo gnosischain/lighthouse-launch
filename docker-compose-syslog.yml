@@ -129,6 +129,36 @@ services:
       options:
         max-size: "100m"
         max-file: "1"
+  validator-import-slashing-protection:
+    image: sigp/lighthouse:v2.1.5-modern
+    command: |
+      lighthouse account validator slashing-protection import
+      --network gnosis
+      --datadir /root/sbc
+      /root/sbc/config/slashing_protection.json
+    volumes:
+      - ./config:/root/sbc/config
+      - ./validators:/root/sbc/validators
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "1"
+  validator-export-slashing-protection:
+    image: sigp/lighthouse:v2.1.5-modern
+    command: |
+      lighthouse account validator slashing-protection export
+      --network gnosis
+      --datadir /root/sbc
+      /root/sbc/config/slashing_protection.json
+    volumes:
+      - ./config:/root/sbc/config
+      - ./validators:/root/sbc/validators
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "1"
   prometheus:
     image: prom/prometheus:latest
     restart: always
