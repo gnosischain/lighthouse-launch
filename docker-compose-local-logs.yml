@@ -6,8 +6,7 @@ services:
     restart: always
     command: |
       lighthouse beacon_node
-      --network gnosis
-      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
+      --testnet-dir /root/sbc/config
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -21,10 +20,12 @@ services:
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
       --debug-level $LOG_LEVEL
+      --subscribe-all-subnets
     ports:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
+      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
     logging:
       driver: "json-file"
@@ -37,8 +38,7 @@ services:
     restart: always
     command: |
       lighthouse beacon_node
-      --network gnosis
-      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
+      --testnet-dir /root/sbc/config
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -53,10 +53,12 @@ services:
       --debug-level $LOG_LEVEL
       --slasher
       --slasher-max-db-size 32
+      --subscribe-all-subnets
     ports:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
+      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
@@ -70,8 +72,7 @@ services:
     restart: always
     command: |
       lighthouse beacon_node
-      --network gnosis
-      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
+      --testnet-dir /root/sbc/config
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -87,10 +88,12 @@ services:
       --slasher
       --slasher-max-db-size 32
       --slasher-broadcast
+      --subscribe-all-subnets
     ports:
       - '12000:12000/udp'
       - '13000:13000'
     volumes:
+      - ./config:/root/sbc/config
       - ./node_db:/home/.eth2/beaconchaindata
       - ./slasher_db:/home/.eth2/slasherdata
     logging:
@@ -102,12 +105,13 @@ services:
     image: sigp/lighthouse:v2.1.5-modern
     command: |
       lighthouse account_manager validator import
-      --network gnosis
+      --testnet-dir /root/sbc/config
       --password-file /root/sbc/keys/keystore_password.txt
       --reuse-password
       --directory /root/sbc/keys/validator_keys
       --datadir /root/sbc
     volumes:
+      - ./config:/root/sbc/config
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
@@ -118,8 +122,7 @@ services:
       - node
     command: |
       lighthouse validator_client
-      --network gnosis
-      --enable-doppelganger-protection
+      --testnet-dir /root/sbc/config
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
       --graffiti-file /root/sbc/config/graffiti.yml
