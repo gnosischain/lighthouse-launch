@@ -78,6 +78,6 @@ Update repository configs to a newer version should be as easy as pulling new ch
 For example, the following sequence of commands should work in most of the cases. 
 ```bash
 git pull
-docker-compose up down
+docker-compose down --remove-orphans
 docker-compose up -d node validator prometheus
 ```
