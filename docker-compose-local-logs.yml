@@ -151,7 +151,7 @@ services:
         max-size: "100m"
         max-file: "1"
   validator-export-slashing-protection:
-    image: sigp/lighthouse:v2.1.5-modern
+    image: sigp/lighthouse:v2.2.1-modern
     command: |
       lighthouse account validator slashing-protection export
       --network gnosis
