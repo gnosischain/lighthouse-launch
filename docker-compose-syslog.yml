@@ -113,7 +113,6 @@ services:
     command: |
       lighthouse validator_client
       --network gnosis
-      --enable-doppelganger-protection
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
       --graffiti-file /root/sbc/config/graffiti.yml
@@ -121,6 +120,12 @@ services:
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
       --metrics-port 5064
+      --http
+      --http-address 0.0.0.0
+      --http-allow-origin *
+      --unencrypted-http-transport
+    ports:
+      - '127.0.0.1:5062:5062'
     volumes:
       - ./config:/root/sbc/config
       - ./validators:/root/sbc/validators
