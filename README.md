@@ -4,11 +4,6 @@ This document describes how to run Lighthouse beacon node + Lighthouse validator
 
 See a similar repo with Prysm node setup - https://github.com/gnosischain/prysm-launch
 
-## Important Note
-We were not able to run the latest version of Lighthouse with our config.
-It was necessary to patch mainnet config in the beacon client and rebuild it from source.
-Patched source code is available at https://github.com/gnosischain/gbc-lighthouse.
-
 ## Assumptions
 * This document assumes that you already have an xDai node available for your use (or public JSON RPC endpoint)
 * You have already generated your validator accounts using the fork of the official deposit-cli - https://github.com/gnosischain/deposit-cli. You will need validator keystores and passwords for them to run the validator client.
@@ -77,3 +72,12 @@ docker-compose up -d prometheus
 ```
 
 If the node is run by `node-private-slasher` or `node-public-slasher`, replace `node` in `depends_on` section of the prometheus service in the docker compose file to specify proper set of services to run.
+
+## Update repository to a newer version
+Update repository configs to a newer version should be as easy as pulling new changes from the repo and restarting the node.
+For example, the following sequence of commands should work in most of the cases. 
+```bash
+git pull
+docker-compose down --remove-orphans
+docker-compose up -d node validator prometheus
+```

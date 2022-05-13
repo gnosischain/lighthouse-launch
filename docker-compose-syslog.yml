@@ -1,12 +1,13 @@
 version: '3.8'
 services:
   node:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.2.1-modern
     hostname: node
     restart: always
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -30,12 +31,13 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-private-slasher:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.2.1-modern
     hostname: node
     restart: always
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -61,12 +63,13 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   node-public-slasher:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.2.1-modern
     hostname: node
     restart: always
     command: |
       lighthouse beacon_node
       --network gnosis
+      --checkpoint-sync-url https://rpc-gbc.gnosischain.com/
       --discovery-port 12000
       --port 13000
       --eth1-endpoints $XDAI_RPC_URL
@@ -93,7 +96,7 @@ services:
       driver: syslog
       options: { tag: '{{.Name}}/{{.ID}}' }
   validator-import:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.2.1-modern
     command: |
       lighthouse account_manager validator import
       --network gnosis
@@ -105,7 +108,7 @@ services:
       - ./keys:/root/sbc/keys
       - ./validators:/root/sbc/validators
   validator:
-    image: sigp/lighthouse:v2.1.2-modern
+    image: sigp/lighthouse:v2.2.1-modern
     hostname: validator
     restart: always
     depends_on:
@@ -113,6 +116,7 @@ services:
     command: |
       lighthouse validator_client
       --network gnosis
+      --enable-doppelganger-protection
       --validators-dir /root/sbc/validators
       --beacon-nodes http://node:5052
       --graffiti-file /root/sbc/config/graffiti.yml
@@ -120,6 +124,36 @@ services:
       --metrics-address 0.0.0.0
       --metrics-allow-origin *
       --metrics-port 5064
+    volumes:
+      - ./config:/root/sbc/config
+      - ./validators:/root/sbc/validators
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "1"
+  validator-import-slashing-protection:
+    image: sigp/lighthouse:v2.2.1-modern
+    command: |
+      lighthouse account validator slashing-protection import
+      --network gnosis
+      --datadir /root/sbc
+      /root/sbc/config/slashing_protection.json
+    volumes:
+      - ./config:/root/sbc/config
+      - ./validators:/root/sbc/validators
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "1"
+  validator-export-slashing-protection:
+    image: sigp/lighthouse:v2.2.1-modern
+    command: |
+      lighthouse account validator slashing-protection export
+      --network gnosis
+      --datadir /root/sbc
+      /root/sbc/config/slashing_protection.json
     volumes:
       - ./config:/root/sbc/config
       - ./validators:/root/sbc/validators
