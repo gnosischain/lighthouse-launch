@@ -1,6 +1,6 @@
 # Running a Lighthouse client for GBC
 
-This document describes how to run Lighthouse beacon node + Lighthouse validator for the Gnosis Beacon Chain.
+This document describes running the Lighthouse beacon node + Lighthouse validator for the Gnosis Beacon Chain
 
 See a similar repo with Prysm node setup - https://github.com/gnosischain/prysm-launch
 
